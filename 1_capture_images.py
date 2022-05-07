@@ -66,7 +66,7 @@ while True:
     cv2.imshow("cam", img)
     key = cv2.waitKey(1) & 0xFF
     t2 = datetime.now()
-    # if the `q` key was pressed, break from the loop and save last image
+    
     if key == ord("q") :
         avgtime = avgtime/counter
         print ("Average time between frames: " + str(avgtime))
