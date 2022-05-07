@@ -48,12 +48,13 @@ if not cap_receive.isOpened():
     quit()
 
 
-t2 = datetime.now()
+t2 = datetime.now():w
+
 counter = 0
 avgtime = 0
 file_idx = 0
+
 # Capture frames from the camera
-#for frame in camera.capture_continuous(capture, format="bgra", use_video_port=True, resize=(img_width,img_height)):
 while True:
     ret, frame = cap_receive.read()
     
