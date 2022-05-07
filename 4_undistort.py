@@ -1,22 +1,26 @@
-from ast import increment_lineno
 import cv2
 import glob
 import numpy as np
 import os
 import pickle
 
-cam_num = 0
-assert(cam_num == 0 or cam_num == 1)
+# sensor_id=1 ... left camera
+# sensor_id=0 ... right camera
+sensor_id = 0
+assert(sensor_id == 0 or sensor_id == 1)
 
-# Displayed image size
-scale_factor = 0.5
 
-if cam_num == 0:
+# File for captured image
+if sensor_id == 1:
     file_path = './img_left/'
     data_name = '/calib_left.dat'
 else:
     file_path = './img_right/'
     data_name = '/calib_right.dat'
+
+
+# Displayed image size
+scale_factor = 0.5
     
     
 data_path = os.getcwd() + data_name

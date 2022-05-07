@@ -1,23 +1,28 @@
 import cv2
-assert cv2.__version__[0] >= '3', 'The fisheye module requires opencv version >= 3.0.0'
 import numpy as np
 import os
 import glob
 import pickle
 
-cam_num = 0
-assert(cam_num == 0 or cam_num == 1)
+# sensor_id=1 ... left camera
+# sensor_id=0 ... right camera
+sensor_id = 0
+assert(sensor_id == 0 or sensor_id == 1)
 
-if cam_num == 0:
+
+# File for captured image
+if sensor_id == 1:
     file_path = './img_left/'
     data_name = '/calib_left.dat'
 else:
     file_path = './img_right/'
     data_name = '/calib_right.dat'
 
+
 # Displayed image size
 scale_factor = 0.5
 
+# Calibration pattern parameters
 CHECKERBOARD = (6,9)
 #CHECKERBOARD = (7,10)
 square_size = 19.8e-2 / 8
@@ -116,11 +121,9 @@ print("rms=" + str(rms))
 print("K=np.array(" + str(K.tolist()) + ")")
 print("D=np.array(" + str(D.tolist()) + ")")
 
-#exit()
 
 # test calibratin results
 DIM = _img_shape[::-1]
-#dim1 = DIM
 
 balance = 1.0 #0.2 #1.0
 new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(K, D, DIM, np.eye(3), balance=balance)
@@ -143,9 +146,6 @@ for fname in images:
     if key == ord('q'):
         quit()
 
-    
-    
-    
     
  
 cv2.destroyAllWindows()
