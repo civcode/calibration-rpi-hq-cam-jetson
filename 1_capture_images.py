@@ -48,7 +48,7 @@ if not cap_receive.isOpened():
     quit()
 
 
-t2 = datetime.now():w
+t2 = datetime.now()
 
 counter = 0
 avgtime = 0
