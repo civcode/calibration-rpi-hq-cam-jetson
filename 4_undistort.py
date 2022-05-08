@@ -28,10 +28,9 @@ print(data_path)
 
 with open(data_path, "rb") as f:
     calib_data = pickle.load(f)
-    #print(pickle.load(f))
 
-for item in calib_data:
-    print(item)
+#for item in calib_data:
+#    print(item)
 
 print('dim =', calib_data["dim"])
 print('K =', calib_data["K"])
@@ -52,8 +51,8 @@ map1, map2 = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), new_K, dim, cv
 images = glob.glob(file_path + '/*.png')
 
 
-print("\nPress p to increase balance value")
-print("Press m to decrease balance value")
+print("\nPress j to decrease balance value")
+print("Press k to increase balance value")
 
 for fname in images:
     img = cv2.imread(fname)
@@ -77,13 +76,13 @@ for fname in images:
     key = cv2.waitKey(0)
     if key == ord("q"):
         quit()
-    while key == ord("p") or key == ord("m"):
+    while key == ord("j") or key == ord("k"):
         increment = 0.1
-        if key == ord("p"):
+        if key == ord("j"):
             if balance <= 1.0-increment:
                 balance += increment 
                 print('balance: {0:.2f}'.format(balance))
-        elif key == ord("m"):
+        elif key == ord("k"):
             if balance >= 0.0+increment:
                 balance -= increment
                 print('balance: {0:.2f}'.format(balance))

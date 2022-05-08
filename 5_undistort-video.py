@@ -74,10 +74,10 @@ if not cap_receive.isOpened():
     print('VideoCapture not opened')
     quit()
 
-cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+#cv2.namedWindow('img', cv2.WINDOW_NORMAL)
 cv2.namedWindow('undistorted', cv2.WINDOW_NORMAL)
-cv2.resizeWindow('undistorted', 1280, 960)
-cv2.namedWindow('perspective', cv2.WINDOW_NORMAL)
+#cv2.resizeWindow('undistorted', 1280, 960)
+#cv2.namedWindow('perspective', cv2.WINDOW_NORMAL)
 # Capture frames from the camera
 #for frame in camera.capture_continuous(capture, format="bgra", use_video_port=True, resize=(img_width,img_height)):
 while True:
@@ -86,10 +86,10 @@ while True:
     #print(img.shape)
     h,w = img.shape[:2]
     undistorted_img = cv2.remap(img, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-    cv2.imshow('img', img)
+    #cv2.imshow('img', img)
     #cv2.imshow("undistorted", undistorted_img)
     #print('image')
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(0)
     if key == ord("q"):
         quit()
     
@@ -109,16 +109,12 @@ while True:
     cv2.imshow("undistorted", undistorted_img)
     #key = cv2.waitKey(1)
 
-    src_points = np.float32( [ [0,800], [500,400], [1280-500,400], [1280,800] ] )
-    dst_points = np.float32( [ [0,960], [0,0], [1280,0], [1280,960] ] )
+    # src_points = np.float32( [ [0,800], [500,400], [1280-500,400], [1280,800] ] )
+    # dst_points = np.float32( [ [0,960], [0,0], [1280,0], [1280,960] ] )
 
-    img, out = perspective_transform(undistorted_img, src_points, dst_points )
-    cv2.imshow("perspective", out)
+    # img, out = perspective_transform(undistorted_img, src_points, dst_points )
+    # cv2.imshow("perspective", out)
     #key = cv2.waitKey(1)
-
-        
-    
-    
     
     
  

@@ -7,7 +7,7 @@ from datetime import datetime
 
 # sensor_id=1 ... left camera
 # sensor_id=0 ... right camera
-sensor_id = 0
+sensor_id = 1
 assert(sensor_id == 0 or sensor_id == 1)
 
 
@@ -20,7 +20,7 @@ file_prefix = 'img_'
 file_suffix = '.png'
 
 # Displayed image size
-scale_ratio = 0.5
+scale_factor = 0.5
 
 # Controls
 print("Controls:")
@@ -34,8 +34,8 @@ cam_height = 1080
 print ("Used camera resolution: "+str(cam_width)+" x "+str(cam_height))
 
 # Displayed image size
-img_width = int (cam_width * scale_ratio)
-img_height = int (cam_height * scale_ratio)
+img_width = int (cam_width * scale_factor)
+img_height = int (cam_height * scale_factor)
 capture = np.zeros((img_height, img_width, 4), dtype=np.uint8)
 print ("Scaled image resolution: "+str(img_width)+" x "+str(img_height))
 
