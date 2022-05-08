@@ -2,7 +2,6 @@ import time
 import cv2
 import numpy as np
 import os
-from datetime import datetime
 
 
 # sensor_id=1 ... left camera
@@ -48,18 +47,20 @@ if not cap_receive.isOpened():
     quit()
 
 
-t2 = datetime.now()
+print("q ... Quit")
+print("s ... Select ROI")
 
 counter = 0
 avgtime = 0
 file_idx = 0
-get_roi = True
+get_roi = False 
+roi = []
 
 # Capture frames from the camera
-while counter < 100:
-    ret, frame = cap_receive.read()
-    counter +=1
-
+# while counter < 100:
+#     ret, frame = cap_receive.read()
+#     counter +=1
+    
 while True:
     ret, frame = cap_receive.read()
     
@@ -72,6 +73,7 @@ while True:
         roi = [int(val/scale_factor) for val in roi]
         print(roi)
         get_roi = False
+        cv2.destroyWindow("ROI selector")
 
     #img_cropped = img[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
     #roi /= scale_factor
@@ -80,14 +82,20 @@ while True:
     #     roi[i] = int(roi[i]/scale_factor)
     # print(roi[0])
     # print(roi)
-    img_cropped = frame[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
-    img_cropped = cv2.resize(img_cropped, (img_width, img_height), interpolation=cv2.INTER_CUBIC)
-        
-    cv2.imshow("roi", img_cropped)
+    if not roi:
+        cv2.imshow("roi", img)
+        # cv2.waitKey(10)
+    else:
+        img_cropped = frame[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
+        img_cropped = cv2.resize(img_cropped, (img_width, img_height), interpolation=cv2.INTER_CUBIC)
+        cv2.imshow("roi", img_cropped)
 
     key = cv2.waitKey(1) & 0xFF
+
+    if key == ord("s"):
+        get_roi = True
     
-    if key == ord("q") :
+    if key == ord("q"):
         avgtime = avgtime/counter
         cv2.destroyAllWindows()
         exit()
