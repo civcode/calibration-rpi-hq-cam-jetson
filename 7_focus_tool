@@ -96,7 +96,6 @@ while True:
         get_roi = True
     
     if key == ord("q"):
-        avgtime = avgtime/counter
         cv2.destroyAllWindows()
         exit()
     # elif key == ord("s"):
