@@ -84,8 +84,16 @@ print('Image size:', gray.shape[::-1])
 img_size = (w, h)
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, img_size, None, None)
 
+# store data
+calib_data = {"dim": _img_shape[::-1], "K": mtx, "D": dist}
+pickle_file = os.getcwd() + data_name
+with open(pickle_file, "wb") as f:
+    pickle.dump(calib_data, f)
+
+
 #new_K, valid_roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (h, w), 1, (h,w))
-new_K, valid_roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (h, w), 1, centerPrincipalPoint=True)
+#new_K, valid_roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (h, w), 1, centerPrincipalPoint=True)
+new_K, valid_roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (h, w), 1, centerPrincipalPoint=False)
 
 print("\nrms=" + str(ret))
 print("\nCamera matirx=")

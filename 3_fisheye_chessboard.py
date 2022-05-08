@@ -114,13 +114,6 @@ pickle_file = os.getcwd() + data_name
 with open(pickle_file, "wb") as f:
     pickle.dump(calib_data, f)
 
-def writeCalibrationData(camera_matrix, distortion_coeffs):
-    s = cv2.FileStorage('calib-data.xml', cv2.FileStorage_WRITE)
-    s.write('cameraMatrix', camera_matrix)
-    s.release()
-
-writeCalibrationData(K, D)
-    
 
 print("Found " + str(N_OK) + " valid images for calibration")
 print("DIM=" + str(_img_shape[::-1]))

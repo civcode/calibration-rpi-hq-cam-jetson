@@ -64,7 +64,7 @@ balance = 0.5
 new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(K, D, dim, np.eye(3), balance=balance)
 map1, map2 = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), new_K, dim, cv2.CV_16SC2)
 
-images = glob.glob(file_path + '/*.png')
+#images = glob.glob(file_path + '/*.png')
 
 # capture pipeline for orlaco camera
 #cap_receive = cv2.VideoCapture('udpsrc multicast-group=239.255.255.200 multicast-iface=eth0 auto-multicast=true port=50008 ! application/x-rtp, encoding-name=JPEG, payload=26 ! rtpjpegdepay ! vaapijpegdec ! videoconvert ! appsink', cv2.CAP_GSTREAMER)
