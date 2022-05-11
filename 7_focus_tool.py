@@ -9,15 +9,6 @@ import os
 sensor_id = 1
 assert(sensor_id == 0 or sensor_id == 1)
 
-
-# File for captured image
-# if sensor_id == 1:
-#     file_path = './img_left/'
-# else:
-#     file_path = './img_right/'
-# file_prefix = 'img_'
-# file_suffix = '.png'
-
 # Displayed image size
 scale_factor = 0.5
 
@@ -51,17 +42,10 @@ file_idx = 0
 get_roi = False 
 roi = []
 
-# Capture frames from the camera
-# while counter < 100:
-#     ret, frame = cap_receive.read()
-#     counter +=1
-    
 while True:
     ret, frame = cap_receive.read()
     
     img = cv2.resize(frame, (img_width, img_height), interpolation=cv2.INTER_CUBIC)
-    #cv2.imshow("cam", frame)
-    #cv2.imshow("cam", img)
 
     if get_roi:
         roi = cv2.selectROI(img)
@@ -70,16 +54,8 @@ while True:
         get_roi = False
         cv2.destroyWindow("ROI selector")
 
-    #img_cropped = img[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
-    #roi /= scale_factor
-    #roi = [int(val/scale_factor) for val in roi]
-    # for i in range(len(roi)):
-    #     roi[i] = int(roi[i]/scale_factor)
-    # print(roi[0])
-    # print(roi)
     if not roi:
         cv2.imshow("roi", img)
-        # cv2.waitKey(10)
     else:
         img_cropped = frame[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
         img_cropped = cv2.resize(img_cropped, (img_width, img_height), interpolation=cv2.INTER_CUBIC)
@@ -93,13 +69,5 @@ while True:
     if key == ord("q"):
         cv2.destroyAllWindows()
         exit()
-    # elif key == ord("s"):
-    #     if (os.path.isdir(file_path)==False):
-    #         os.makedirs(file_path)    
-            
-    #     idx_string = "{:03}".format(file_idx)
-    #     cv2.imwrite(file_path+file_prefix+idx_string+file_suffix, frame)
-    #     file_idx += 1
-    #     print("captured image " + str(file_idx))
    
     
