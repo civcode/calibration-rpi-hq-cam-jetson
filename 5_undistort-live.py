@@ -10,6 +10,18 @@ import pickle
 sensor_id = 1
 assert(sensor_id == 0 or sensor_id == 1)
 
+if sensor_id == 0:
+    file_path = './img_left/'
+    data_name = '/calib_left.dat'
+else:
+    file_path = './img_right/'
+    data_name = '/calib_right.dat'
+    
+if not os.path.exists(file_path):
+    print("\nPath " + str(file_path) + " does not exist.")
+    print("No images found.")
+    quit()
+
 # Displayed image size
 scale_factor = 0.5
 
@@ -25,13 +37,6 @@ img_height = int (cam_height * scale_factor)
 #capture = np.zeros((img_height, img_width, 4), dtype=np.uint8)
 print ("Scaled image resolution: "+str(img_width)+" x "+str(img_height))
 
-if sensor_id == 0:
-    file_path = './img_left/'
-    data_name = '/calib_left.dat'
-else:
-    file_path = './img_right/'
-    data_name = '/calib_right.dat'
-    
     
 data_path = os.getcwd() + data_name
 print(data_path)

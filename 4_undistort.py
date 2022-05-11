@@ -18,6 +18,11 @@ else:
     file_path = './img_right/'
     data_name = '/calib_right.dat'
 
+if not os.path.exists(file_path):
+    print("\nPath " + str(file_path) + " does not exist.")
+    print("No images found.")
+    quit()
+
 
 # Displayed image size
 scale_factor = 0.5
@@ -48,11 +53,13 @@ balance = 0.2 #0.5
 new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(K, D, dim, np.eye(3), balance=balance)
 map1, map2 = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), new_K, dim, cv2.CV_16SC2)
 
-images = glob.glob(file_path + '/*.png')
-
-
 print("\nPress j to decrease balance value")
 print("Press k to increase balance value")
+
+images = glob.glob(file_path + '/*.png')
+if len(images) == 0:
+    print("\nNo images found in ", file_path)
+
 
 for fname in images:
     img = cv2.imread(fname)

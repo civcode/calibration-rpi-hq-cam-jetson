@@ -15,7 +15,7 @@ def writeCalibrationData(file_name):
     print(data_path)
 
     if not os.path.exists(data_path):
-        print("Path des not exist.")
+        print("\nPath des not exist.")
         print(data_path)
         sys.exit()
 

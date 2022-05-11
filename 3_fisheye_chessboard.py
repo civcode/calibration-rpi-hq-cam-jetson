@@ -18,6 +18,10 @@ else:
     file_path = './img_right/'
     data_name = '/calib_right.dat'
 
+if not os.path.exists(file_path):
+    print("\nPath " + str(file_path) + " does not exist.")
+    print("No images found.")
+    quit()
 
 # Displayed image size
 scale_factor = 0.5
