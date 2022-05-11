@@ -21,11 +21,6 @@ assert(sensor_id == 0 or sensor_id == 1)
 # Displayed image size
 scale_factor = 0.5
 
-# Controls
-print("Controls:")
-#print("s ... Grab Frame")
-print("q ... Quit")
-
 # Camera settinge 
 # 1920x1080
 cam_width = 1920
@@ -47,8 +42,8 @@ if not cap_receive.isOpened():
     quit()
 
 
-print("q ... Quit")
-print("s ... Select ROI")
+print("\nq ... Quit")
+print("s ... Select ROI\n")
 
 counter = 0
 avgtime = 0
