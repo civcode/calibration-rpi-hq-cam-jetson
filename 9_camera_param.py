@@ -38,11 +38,11 @@ K = calib_data["K"]
 print(dim)
 print(K)
 
-fovx, fovy, focalLength, principalPoint, aspectRatio = cv2.calibrationMatrixValues(K, dim, aperture_size[0], aperture_size[1])
+fovv, fovh, focalLength, principalPoint, aspectRatio = cv2.calibrationMatrixValues(K, dim, aperture_size[0], aperture_size[1])
 
 print('\ndim: ', dim)
-print('fovx: ', fovx)
-print('fovy: ', fovy)
+print('fovv: ', fovv)
+print('fovh: ', fovh)
 print('focal length: ', focalLength)
 print('principal point: ', principalPoint)
 print('aspect ratio: ', aspectRatio)
