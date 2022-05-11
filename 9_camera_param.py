@@ -28,6 +28,11 @@ else:
 data_path = os.getcwd() + data_name
 print(data_path)
 
+if not os.path.exists(data_path):
+    print("\nPath des not exist.")
+    print(data_path)
+    sys.exit()
+
 with open(data_path, "rb") as f:
     calib_data = pickle.load(f)
     #print(pickle.load(f))
