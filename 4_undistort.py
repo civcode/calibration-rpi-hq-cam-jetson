@@ -78,11 +78,11 @@ for fname in images:
         quit()
     while key == ord("j") or key == ord("k"):
         increment = 0.1
-        if key == ord("j"):
+        if key == ord("k"):
             if balance <= 1.0-increment:
                 balance += increment 
                 print('balance: {0:.2f}'.format(balance))
-        elif key == ord("k"):
+        elif key == ord("j"):
             if balance >= 0.0+increment:
                 balance -= increment
                 print('balance: {0:.2f}'.format(balance))
