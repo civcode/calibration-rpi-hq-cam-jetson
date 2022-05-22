@@ -3,11 +3,20 @@ import cv2
 import numpy as np
 import os
 from datetime import datetime
+from evdev import InputDevice, categorize, ecodes
+import threading
+
+# BlueTooth Shutter Trigger
+use_bt_shutter_device = True
+
+shutter_status = 0
+is_running = True
+device_path = '/dev/input/event5'
 
 
 # sensor_id=1 ... left camera
 # sensor_id=0 ... right camera
-sensor_id = 1
+sensor_id = 0
 assert(sensor_id == 0 or sensor_id == 1)
 
 
@@ -18,6 +27,32 @@ else:
     file_path = './img_right/'
 file_prefix = 'img_'
 file_suffix = '.png'
+
+
+if use_bt_shutter_device and not os.path.exists(device_path):
+    print('device {} not found'.format(device_path))
+    quit()
+
+bt_input = InputDevice(device_path)
+
+def getEvents():
+    global shutter_status
+    global is_running
+    while is_running:
+        event = bt_input.read_one()
+        if event:
+            if event.code == ecodes.KEY_VOLUMEUP and event.value == 1:        
+                #print("AB Shutter3 was pressed.\n")
+                shutter_status = 1
+            if event.code == ecodes.KEY_VOLUMEUP and event.value == 2:        
+                #print("AB Shutter3 was released.\n")
+                shutter_status = 2
+
+        time.sleep(0.01)
+
+t = threading.Thread(target=getEvents)
+t.start()
+
 
 # Displayed image size
 scale_factor = 0.5
@@ -73,8 +108,11 @@ while True:
         print ("Average time between frames: " + str(avgtime))
         print ("Average FPS: " + str(1/avgtime))
         cv2.destroyAllWindows()
+        is_running = False
+        t.join()
         exit()
-    elif key == ord("s"):
+    elif key == ord("s") or shutter_status == 1:
+        shutter_status = 0
         if (os.path.isdir(file_path)==False):
             os.makedirs(file_path)    
             

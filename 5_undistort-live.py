@@ -7,10 +7,10 @@ import pickle
 
 # sensor_id=1 ... left camera
 # sensor_id=0 ... right camera
-sensor_id = 1
+sensor_id = 0
 assert(sensor_id == 0 or sensor_id == 1)
 
-if sensor_id == 0:
+if sensor_id == 1:
     file_path = './img_left/'
     data_name = '/calib_left.dat'
 else:

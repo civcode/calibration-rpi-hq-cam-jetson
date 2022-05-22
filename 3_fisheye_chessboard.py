@@ -31,18 +31,24 @@ CHECKERBOARD = (6,9)
 #CHECKERBOARD = (7,10)
 square_size = 19.8e-2 / 8
 
-corner_subpix_criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+find_chessboard_criteria = (cv2.CALIB_CB_ADAPTIVE_THRESH+
+                            cv2.CALIB_CB_FAST_CHECK+
+                            cv2.CALIB_CB_NORMALIZE_IMAGE)
 
-#calib_subpix_criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 100, 1e-6)
-calib_subpix_criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 100, 0.001)
+corner_subpix_criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 30, 0.1)
 
-#calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC + \
-#                    cv2.fisheye.CALIB_CHECK_COND + \
-#                    cv2.fisheye.CALIB_FIX_SKEW
-
+# Flags 	cv.fisheye.calibrate()
+# https://docs.opencv.org/3.4/db/d58/group__calib3d__fisheye.html
+#
+# cv2.fisheye.CALIB_USE_INTRINSIC_GUESS ... cameraMatrix contains valid initial values
+# cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC ... Extrinsic will be recomputed after each iteration
+# cv2.fisheye.CALIB_CHECK_COND          ... The functions will check validity of condition number
+# cv2.fisheye.CALIB_FIX_SKEW            ... Skew coefficient (alpha) is set to zero and stay zero
+# cv2.fisheye.CALIB_FIX_K1 .. K4        ... Selected distortion coefficients are set to zeros and stay zero
+# cv2.fisheye.CALIB_FIX_PRINCIPAL_POINT ... The principal point is not changed during the global optimization
 calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC + \
                     cv2.fisheye.CALIB_FIX_SKEW + \
-                    cv2.fisheye.CALIB_CHECK_COND
+                    cv2.fisheye.CALIB_CHECK_COND 
 
 #objp = np.zeros((1, CHECKERBOARD[0]*CHECKERBOARD[1], 3), np.float32)
 #objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
@@ -74,7 +80,7 @@ for fname in images:
         assert _img_shape == img.shape[:2], "All images must share the same size."
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # Find the chess board corners
-    ret, corners = cv2.findChessboardCorners(gray, CHECKERBOARD, cv2.CALIB_CB_ADAPTIVE_THRESH+cv2.CALIB_CB_FAST_CHECK+cv2.CALIB_CB_NORMALIZE_IMAGE)
+    ret, corners = cv2.findChessboardCorners(gray, CHECKERBOARD, find_chessboard_criteria)
     # If found, add object points, image points (after refining them)
     if ret == True:
         objpoints.append(objp)
@@ -107,7 +113,6 @@ rms, _, _, _, _ = \
         rvecs,
         tvecs,
         calibration_flags,
-        calib_subpix_criteria
     )
 
 #cv2.destroyAllWindows()
