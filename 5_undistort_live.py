@@ -1,34 +1,30 @@
+#!/usr/bin/python3
+
 import cv2
 import glob
 import numpy as np
 import os
 import pickle
 
+import config
 
-# sensor_id=1 ... left camera
-# sensor_id=0 ... right camera
-sensor_id = 1
-assert(sensor_id == 0 or sensor_id == 1)
+sensor_id = config.sensor_id
 
-if sensor_id == 0:
-    file_path = './img_left/'
-    data_name = '/calib_left.dat'
-else:
-    file_path = './img_right/'
-    data_name = '/calib_right.dat'
-    
+# File for captured image
+data_name = config.data_name
+file_path = config.file_path
+
 if not os.path.exists(file_path):
     print("\nPath " + str(file_path) + " does not exist.")
     print("No images found.")
     quit()
 
 # Displayed image size
-scale_factor = 0.5
+scale_factor = config.scale_factor
 
 # Camera settinge 
-# 1920x1080
-cam_width = 1920
-cam_height = 1080
+cam_width = 640
+cam_height = 480
 print ("Used camera resolution: "+str(cam_width)+" x "+str(cam_height))
 
 # Displayed image size
@@ -52,23 +48,21 @@ print('dim =', calib_data["dim"])
 print('K =', calib_data["K"])
 print('D =', calib_data["D"])
 
-
-# test calibratin results
-#DIM = _img_shape[::-1]
-#dim1 = DIM
 dim = calib_data["dim"]
 K = calib_data["K"]
 D = calib_data["D"]
+type = calib_data["type"]
+
+if type != 'fisheye':
+    print("\nCalibration data type is not fisheye")
+    print("Run mathing calibration")
+    quit()
 
 balance = 0.0
 new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(K, D, dim, np.eye(3), balance=balance)
 map1, map2 = cv2.fisheye.initUndistortRectifyMap(K, D, np.eye(3), new_K, dim, cv2.CV_16SC2)
 
-#images = glob.glob(file_path + '/*.png')
-
-# capture pipeline for orlaco camera
-#cap_receive = cv2.VideoCapture('udpsrc multicast-group=239.255.255.200 multicast-iface=eth0 auto-multicast=true port=50008 ! application/x-rtp, encoding-name=JPEG, payload=26 ! rtpjpegdepay ! vaapijpegdec ! videoconvert ! appsink', cv2.CAP_GSTREAMER)
-cap_receive = cv2.VideoCapture('nvarguscamerasrc sensor-id=' + str(sensor_id) + ' ! video/x-raw(memory:NVMM), width=(int)' + str(cam_width) +', height=(int)' + str(cam_height) + ', format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv flip-method=2 ! nvvidconv ! appsink', cv2.CAP_GSTREAMER)
+cap_receive = cv2.VideoCapture(sensor_id, cv2.CAP_V4L2)
 
 if not cap_receive.isOpened():
     print('VideoCapture not opened')
