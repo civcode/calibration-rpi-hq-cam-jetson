@@ -39,7 +39,7 @@ type = calib_data["type"]
 
 if type != 'normal':
     print("\nCalibration data type is not normal")
-    print("Run mathing calibration")
+    print("Run matching calibration")
     quit()
 
 balance = 0.0

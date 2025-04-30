@@ -11,7 +11,7 @@ import config
 sensor_id = config.sensor_id
 
 # File for captured image
-data_name = config.data_name
+data_name = config.data_fisheye_name
 file_path = config.file_path
 
 if not os.path.exists(file_path):
